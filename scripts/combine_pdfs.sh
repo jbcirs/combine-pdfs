@@ -10,7 +10,7 @@ echo
 # Check if we're in the right directory
 if [ ! -f "combine_pdfs.py" ]; then
     echo "Error: combine_pdfs.py not found in current directory."
-    echo "Please run this script from the src folder."
+    echo "Please run this script from the scripts folder."
     echo
     read -p "Press Enter to exit..."
     exit 1
@@ -87,6 +87,6 @@ else
 fi
 
 echo
-echo "Done! Check the src directory for your combined PDF file."
+echo "Done! Check the pdfs/output directory for your combined PDF file."
 echo
 read -p "Press Enter to exit..."

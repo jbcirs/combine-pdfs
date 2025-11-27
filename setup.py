@@ -53,13 +53,20 @@ def check_dependencies():
 def setup_directories():
     """Ensure required directories exist."""
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    source_dir = os.path.join(script_dir, "src", "source-pdfs")
+    source_dir = os.path.join(script_dir, "pdfs", "source")
+    output_dir = os.path.join(script_dir, "pdfs", "output")
     
     if not os.path.exists(source_dir):
         os.makedirs(source_dir)
         print(f"✓ Created source directory: {source_dir}")
     else:
         print(f"✓ Source directory exists: {source_dir}")
+    
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+        print(f"✓ Created output directory: {output_dir}")
+    else:
+        print(f"✓ Output directory exists: {output_dir}")
     
     return True
 
@@ -91,11 +98,11 @@ def main():
     print("\n=== Setup Complete ===")
     print("The PDF Combiner Tool is ready to use!")
     print("\nNext steps:")
-    print("1. Add PDF files to the 'src/source-pdfs' folder")
-    print("2. Navigate to src: cd src")
+    print("1. Add PDF files to the 'pdfs/source' folder")
+    print("2. Navigate to scripts: cd scripts")
     print("3. Run: python combine_pdfs.py")
     print("   Or with watermark removal: python combine_pdfs.py --remove-watermarks")
-    print("4. Check the output in the src directory")
+    print("4. Check the output in the 'pdfs/output' directory")
     print("\nFor help, run: python combine_pdfs.py --help")
     print("For watermark removal details, see WATERMARK_REMOVAL.md")
 

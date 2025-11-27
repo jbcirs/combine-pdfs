@@ -193,9 +193,14 @@ def combine_pdfs(source_folder, output_filename=None, remove_watermarks=False, w
     if not output_filename.lower().endswith('.pdf'):
         output_filename += '.pdf'
     
-    # Create the output path in the src directory
+    # Create the output path in the pdfs/output directory
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    output_path = os.path.join(script_dir, output_filename)
+    output_dir = os.path.join(os.path.dirname(script_dir), 'pdfs', 'output')
+    
+    # Ensure output directory exists
+    os.makedirs(output_dir, exist_ok=True)
+    
+    output_path = os.path.join(output_dir, output_filename)
     
     # Create PDF writer object
     pdf_writer = PdfWriter()
@@ -263,8 +268,8 @@ Examples:
     
     parser.add_argument(
         '-s', '--source',
-        default='source-pdfs',
-        help='Source folder containing PDF files (default: source-pdfs)'
+        default='../pdfs/source',
+        help='Source folder containing PDF files (default: ../pdfs/source)'
     )
     
     parser.add_argument(

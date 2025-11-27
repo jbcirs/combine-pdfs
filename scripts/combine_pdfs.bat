@@ -10,7 +10,7 @@ echo.
 REM Check if we're in the right directory
 if not exist "combine_pdfs.py" (
     echo Error: combine_pdfs.py not found in current directory.
-    echo Please run this script from the src folder.
+    echo Please run this script from the scripts folder.
     echo.
     pause
     exit /b 1
@@ -67,6 +67,6 @@ if /i "%watermark%"=="y" (
 )
 
 echo.
-echo Done! Check the src directory for your combined PDF file.
+echo Done! Check the pdfs/output directory for your combined PDF file.
 echo.
 pause

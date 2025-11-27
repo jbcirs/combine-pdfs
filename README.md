@@ -55,11 +55,11 @@ A Python utility to combine multiple PDF files into a single PDF document.
 
 ### Basic Usage
 
-1. Place your PDF files in the `src/source-pdfs/` folder
-2. Run the script from the `src/` directory:
+1. Place your PDF files in the `pdfs/source/` folder
+2. Run the script from the `scripts/` directory:
 
    ```bash
-   cd src
+   cd scripts
    python combine_pdfs.py
    ```
 
@@ -110,10 +110,12 @@ python combine_pdfs.py -s custom_folder -o final_document.pdf --remove-watermark
 For easier use, especially on Windows:
 
 ```bash
-# Windows (from src directory)
+# Windows (from scripts directory)
+cd scripts
 .\combine_pdfs.bat
 
-# Unix/Linux/macOS (from src directory)
+# Unix/Linux/macOS (from scripts directory)
+cd scripts
 ./combine_pdfs.sh
 ```
 
@@ -128,25 +130,27 @@ combine-pdfs/
 ├── setup.py                 # Setup script for dependencies
 ├── WATERMARK_REMOVAL.md     # Detailed watermark removal guide
 ├── LICENSE
-└── src/
-    ├── combine_pdfs.py      # Main Python script
-    ├── combine_pdfs.bat     # Windows batch script
-    ├── combine_pdfs.sh      # Unix/Linux/macOS shell script
-    ├── create_test_pdfs.py  # Test PDF generator
-    ├── example_usage.py     # Usage examples
-    └── source-pdfs/         # Place your PDF files here
-        ├── document1.pdf    # Example PDF files
-        ├── document2.pdf
-        └── document3.pdf
+├── scripts/                 # All executable scripts
+│   ├── combine_pdfs.py      # Main Python script
+│   ├── combine_pdfs.bat     # Windows batch script
+│   ├── combine_pdfs.sh      # Unix/Linux/macOS shell script
+│   ├── create_test_pdfs.py  # Test PDF generator
+│   └── example_usage.py     # Usage examples
+└── pdfs/
+    ├── source/              # Place your PDF files here
+    │   ├── document1.pdf    # Example PDF files
+    │   ├── document2.pdf
+    │   └── document3.pdf
+    └── output/              # Combined PDFs will be saved here
 ```
 
 ## How It Works
 
-1. **File Discovery**: The script scans the source folder for all `.pdf` files
+1. **File Discovery**: The script scans the `pdfs/source/` folder for all `.pdf` files
 2. **Sorting**: Files are processed in alphabetical order by filename
 3. **Processing**: Each PDF is opened and all pages are extracted
 4. **Combining**: All pages are added to a new PDF document in order
-5. **Output**: The combined PDF is saved in the `src/` directory
+5. **Output**: The combined PDF is saved in the `pdfs/output/` directory
 
 ## Error Handling
 

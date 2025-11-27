@@ -16,7 +16,7 @@ def main():
     
     # Get the directory where this script is located
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    source_folder = os.path.join(script_dir, "source-pdfs")
+    source_folder = os.path.join(os.path.dirname(script_dir), "pdfs", "source")
     
     # Check if source folder exists
     if not os.path.exists(source_folder):
