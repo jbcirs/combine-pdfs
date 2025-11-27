@@ -31,19 +31,40 @@ python -c "import PyPDF2" >nul 2>&1
 if %errorlevel% neq 0 (
     echo PyPDF2 is not installed. Installing now...
     pip install PyPDF2
+    REM Check again if PyPDF2 was actually installed
+    python -c "import PyPDF2" >nul 2>&1
     if %errorlevel% neq 0 (
         echo Error: Failed to install PyPDF2.
         echo Please install it manually: pip install PyPDF2
         echo.
         pause
         exit /b 1
+    ) else (
+        echo PyPDF2 installed successfully!
     )
 )
 
-REM Run the PDF combiner
-echo Running PDF combiner...
+REM Ask user about watermark removal
 echo.
-python combine_pdfs.py %*
+set /p watermark="Remove watermarks (CamScanner logos)? (y/n): "
+set /p method="Use advanced OpenCV method? (y/n, default=n): "
+
+REM Run the PDF combiner
+echo.
+echo Running PDF combiner...
+
+if /i "%watermark%"=="y" (
+    if /i "%method%"=="y" (
+        echo Using advanced OpenCV watermark removal...
+        python combine_pdfs.py --remove-watermarks --watermark-method opencv %*
+    ) else (
+        echo Using basic watermark removal...
+        python combine_pdfs.py --remove-watermarks %*
+    )
+) else (
+    echo Combining PDFs without watermark removal...
+    python combine_pdfs.py %*
+)
 
 echo.
 echo Done! Check the src directory for your combined PDF file.

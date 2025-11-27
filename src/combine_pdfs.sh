@@ -64,11 +64,27 @@ else
     echo "PyPDF2 is already installed."
 fi
 
+# Ask user about watermark removal
+echo
+read -p "Remove watermarks (CamScanner logos)? (y/n): " watermark
+read -p "Use advanced OpenCV method? (y/n, default=n): " method
+
 # Run the PDF combiner
 echo
 echo "Running PDF combiner..."
-echo
-$PYTHON_CMD combine_pdfs.py "$@"
+
+if [[ "$watermark" =~ ^[Yy]$ ]]; then
+    if [[ "$method" =~ ^[Yy]$ ]]; then
+        echo "Using advanced OpenCV watermark removal..."
+        $PYTHON_CMD combine_pdfs.py --remove-watermarks --watermark-method opencv "$@"
+    else
+        echo "Using basic watermark removal..."
+        $PYTHON_CMD combine_pdfs.py --remove-watermarks "$@"
+    fi
+else
+    echo "Combining PDFs without watermark removal..."
+    $PYTHON_CMD combine_pdfs.py "$@"
+fi
 
 echo
 echo "Done! Check the src directory for your combined PDF file."

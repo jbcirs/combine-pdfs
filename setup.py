@@ -29,18 +29,31 @@ def check_python_version():
 
 def check_dependencies():
     """Check if required dependencies are installed."""
-    try:
-        import PyPDF2
-        print("✓ PyPDF2 is already installed")
-        return True
-    except ImportError:
-        print("✗ PyPDF2 is not installed")
-        return False
+    required_packages = [
+        ('PyPDF2', 'PyPDF2'),
+        ('pdfplumber', 'pdfplumber'), 
+        ('Pillow', 'PIL'),
+        ('reportlab', 'reportlab'),
+        ('opencv-python', 'cv2'),
+        ('numpy', 'numpy')
+    ]
+    
+    missing_packages = []
+    
+    for package_name, import_name in required_packages:
+        try:
+            __import__(import_name)
+            print(f"✓ {package_name} is already installed")
+        except ImportError:
+            print(f"✗ {package_name} is not installed")
+            missing_packages.append(package_name)
+    
+    return len(missing_packages) == 0, missing_packages
 
 def setup_directories():
     """Ensure required directories exist."""
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    source_dir = os.path.join(script_dir, "source-pdfs")
+    source_dir = os.path.join(script_dir, "src", "source-pdfs")
     
     if not os.path.exists(source_dir):
         os.makedirs(source_dir)
@@ -59,16 +72,18 @@ def main():
         sys.exit(1)
     
     # Check dependencies
-    dependencies_ok = check_dependencies()
+    dependencies_ok, missing_packages = check_dependencies()
     
     if not dependencies_ok:
-        print("\nInstalling required dependencies...")
-        if install_package("PyPDF2"):
-            print("✓ PyPDF2 installed successfully")
-        else:
-            print("✗ Failed to install PyPDF2")
-            print("Please try installing manually: pip install PyPDF2")
-            sys.exit(1)
+        print("\nInstalling missing dependencies...")
+        for package in missing_packages:
+            print(f"Installing {package}...")
+            if install_package(package):
+                print(f"✓ {package} installed successfully")
+            else:
+                print(f"✗ Failed to install {package}")
+                print("Please try installing manually: pip install -r requirements.txt")
+                sys.exit(1)
     
     # Setup directories
     setup_directories()
@@ -76,10 +91,13 @@ def main():
     print("\n=== Setup Complete ===")
     print("The PDF Combiner Tool is ready to use!")
     print("\nNext steps:")
-    print("1. Add PDF files to the 'source-pdfs' folder")
-    print("2. Run: python combine_pdfs.py")
-    print("3. Check the output in this directory")
+    print("1. Add PDF files to the 'src/source-pdfs' folder")
+    print("2. Navigate to src: cd src")
+    print("3. Run: python combine_pdfs.py")
+    print("   Or with watermark removal: python combine_pdfs.py --remove-watermarks")
+    print("4. Check the output in the src directory")
     print("\nFor help, run: python combine_pdfs.py --help")
+    print("For watermark removal details, see WATERMARK_REMOVAL.md")
 
 if __name__ == "__main__":
     main()
